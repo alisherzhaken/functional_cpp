@@ -1,5 +1,6 @@
 #include <memory>
 #include <cassert>
+#include "iterator.hpp"
 
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
@@ -9,12 +10,13 @@
 namespace functional_cpp {
     template<class T>
     class array {
-        using value_type = T;
-        using size_type = std::size_t;
-        using pointer = std::unique_ptr<value_type[]>;
-        using reference = value_type&;
-        using const_reference = const value_type&;
-        using iterator = value_type*;
+        public:
+            using value_type = T;
+            using size_type = std::size_t;
+            using pointer = std::unique_ptr<value_type[]>;
+            using reference = value_type&;
+            using const_reference = const value_type&;
+            using iterator = RandomAccessIterator<value_type>;
         public:
             array(std::size_t size) : m_data{std::make_unique<value_type[]>(size)}, m_size{size} {}
             array(std::initializer_list<T> collection) : m_data{std::make_unique<value_type[]>(collection.size())}, 
@@ -32,10 +34,10 @@ namespace functional_cpp {
                 return m_data.get();
             }
             iterator begin() {
-                return m_data.get();
+                return iterator{m_data.get()};
             }
             iterator end() {
-                return m_data.get() + m_size;
+                return iterator{m_data.get() + m_size};
             }
             std::size_t size() const {
                 return m_size;
