@@ -5,7 +5,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-// VERSION 2.0
+// VERSION 2.1
 
 namespace functional_cpp {
     template<class T>
@@ -41,6 +41,12 @@ namespace functional_cpp {
             }
             std::size_t size() const {
                 return m_size;
+            }
+            reference front() const {
+                return m_data[0];
+            }
+            reference back() const {
+                return m_data[m_size-1];
             }
         private:
             pointer m_data;
