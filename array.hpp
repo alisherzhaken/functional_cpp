@@ -1,5 +1,11 @@
 #include <memory>
 #include <cassert>
+
+#ifndef ARRAY_HPP
+#define ARRAY_HPP
+
+// VERSION 1.0
+
 namespace functional_cpp {
     template<class T, class Allocator = std::allocator<T>>
     class array {
@@ -36,9 +42,14 @@ namespace functional_cpp {
             iterator end() {
                 return m_data + m_size;
             }
+            std::size_t size() const {
+                return m_size;
+            }
         private:
             Allocator m_allocator;
             pointer m_data;
             std::size_t m_size;
     };
 }
+
+#endif
