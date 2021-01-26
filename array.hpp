@@ -17,6 +17,7 @@ namespace functional_cpp {
             using reference = value_type&;
             using const_reference = const value_type&;
             using iterator = RandomAccessIterator<value_type>;
+            using const_iterator = RandomAccessIterator<const value_type>;
         public:
             array(std::size_t size) : m_data{std::make_unique<value_type[]>(size)}, m_size{size} {}
             array(std::initializer_list<T> collection) : m_data{std::make_unique<value_type[]>(collection.size())}, 
@@ -47,6 +48,12 @@ namespace functional_cpp {
             }
             reference back() const {
                 return m_data[m_size-1];
+            }
+            const_iterator cbegin() const {
+                return const_iterator{m_data.get()};
+            }
+            const_iterator cend() const {
+                return const_iterator{m_data.get() + m_size};
             }
         private:
             pointer m_data;
