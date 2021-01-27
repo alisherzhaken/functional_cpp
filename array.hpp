@@ -2,6 +2,8 @@
 #include <cassert>
 #include <stdexcept>
 #include "iterator.hpp"
+#include <concepts>
+#include <functional>
 
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
@@ -68,6 +70,13 @@ namespace functional_cpp {
                 for (std::size_t i{0}; i < m_size; ++i) {
                     function(m_data[i]);
                 }
+            }
+            constexpr array<value_type> map(const std::function<value_type(value_type)> function) {
+                array<value_type> mapped_array(m_size);
+                for (std::size_t i{0}; i < m_size; ++i) {
+                    mapped_array[i] = function(this->m_data[i]);
+                }
+                return mapped_array;
             }
         private:
             pointer m_data;
