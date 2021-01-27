@@ -8,7 +8,7 @@ namespace functional_cpp {
 
     template<class T>
     class RandomAccessIterator {
-        private:
+        public:
             using value_type = T;
             using reference = value_type&;
             using pointer = value_type*;

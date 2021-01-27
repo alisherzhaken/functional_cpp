@@ -8,7 +8,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-// VERSION 2.2
+// VERSION 2.3
 
 namespace functional_cpp {
     template<class T>
@@ -71,12 +71,18 @@ namespace functional_cpp {
                     function(m_data[i]);
                 }
             }
-            constexpr array<value_type> map(const std::function<value_type(value_type)> function) {
+            constexpr array<value_type> map(std::function<value_type(value_type)> function) {
                 array<value_type> mapped_array(m_size);
                 for (std::size_t i{0}; i < m_size; ++i) {
                     mapped_array[i] = function(this->m_data[i]);
                 }
                 return mapped_array;
+            }
+            template<class OutputIterator>
+            constexpr void map(OutputIterator outputIterator,  std::function<value_type(value_type)> function) {
+                for (auto it = cbegin(); it != cend(); ++it) {
+                    *outputIterator++ = function(*it);
+                }
             }
         private:
             pointer m_data;
