@@ -2,7 +2,7 @@
 #ifndef RANDOM_ACCESS_ITERATOR_HPP
 #define RANDOM_ACCESS_ITERATOR_HPP
 
-// VERSION 1.0
+// VERSION 2.0
 
 namespace functional_cpp {
 
@@ -12,13 +12,15 @@ namespace functional_cpp {
             using value_type = T;
             using reference = value_type&;
             using pointer = value_type*;
+            using const_reference = const value_type&;
+            using const_pointer = const value_type*;
         public:
-            RandomAccessIterator(pointer data) : m_data{data} {}
-            RandomAccessIterator(const RandomAccessIterator& iterator) : m_data{iterator.m_data} {}
-            bool operator==(const RandomAccessIterator& iterator) const {
+            constexpr RandomAccessIterator(pointer data) : m_data{data} {}
+            constexpr RandomAccessIterator(const RandomAccessIterator& iterator) : m_data{iterator.m_data} {}
+            constexpr bool operator==(const RandomAccessIterator& iterator) const {
                 return this->m_data == iterator.m_data;
             }
-            bool operator!=(const RandomAccessIterator& iterator) const {
+            constexpr bool operator!=(const RandomAccessIterator& iterator) const {
                 return !(*this == iterator);
             }
             RandomAccessIterator& operator++() {
@@ -34,6 +36,54 @@ namespace functional_cpp {
                 return *m_data;
             }
             pointer operator->() {
+                return m_data;
+            }
+            const_reference operator*() const {
+                return *m_data;
+            }
+            const_pointer operator->() const {
+                return m_data;
+            }
+        private:
+            pointer m_data;
+    };
+
+    template<class T>
+    class ReverseRandomAccessIterator {
+        public:
+            using value_type = T;
+            using reference = value_type&;
+            using pointer = value_type*;
+            using const_reference = const value_type&;
+            using const_pointer = const value_type*;
+        public:
+            ReverseRandomAccessIterator(pointer data) : m_data{data} {}
+            ReverseRandomAccessIterator(const ReverseRandomAccessIterator& iterator) : m_data{iterator.m_data} {}
+            bool operator==(const ReverseRandomAccessIterator& iterator) const {
+                return this->m_data == iterator.m_data;
+            }
+            bool operator!=(const ReverseRandomAccessIterator& iterator) const {
+                return !(*this == iterator);
+            }
+            ReverseRandomAccessIterator& operator++() {
+                --m_data;
+                return *this;
+            }
+            ReverseRandomAccessIterator operator++(int) {
+                auto copy = *this;
+                --m_data;
+                return copy;
+            }
+            reference operator*() {
+                return *m_data;
+            }
+            pointer operator->() {
+                return m_data;
+            }
+            const_reference operator*() const {
+                return *m_data;
+            }
+            const_pointer operator->() const {
                 return m_data;
             }
         private:
