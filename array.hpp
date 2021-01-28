@@ -1,9 +1,9 @@
 #include <memory>
 #include <cassert>
 #include <stdexcept>
-#include "iterator.hpp"
-#include <concepts>
 #include <functional>
+
+#include "iterator.hpp"
 
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
@@ -21,6 +21,8 @@ namespace functional_cpp {
             using const_reference = const value_type&;
             using iterator = RandomAccessIterator<value_type>;
             using const_iterator = RandomAccessIterator<const value_type>;
+            using reverse_iterator = ReverseRandomAccessIterator<value_type>;
+            using const_reverse_iterator = ReverseRandomAccessIterator<const value_type>;
         public:
             constexpr array(std::size_t size) : m_data{std::make_unique<value_type[]>(size)}, m_size{size} {}
             constexpr array(std::initializer_list<T> collection) : m_data{std::make_unique<value_type[]>(collection.size())}, 
@@ -39,26 +41,20 @@ namespace functional_cpp {
                 }
             }
             ~array() = default;
+            
             constexpr reference operator[](size_type index) const {
                 return index < m_size ? m_data[index] : throw std::out_of_range("Index out of bounds");
             }
+            
             constexpr pointer data() const {
                 return m_data.get();
             }
+            
             constexpr iterator begin() {
                 return iterator{m_data.get()};
             }
             constexpr iterator end() {
                 return iterator{m_data.get() + m_size};
-            }
-            constexpr std::size_t size() const {
-                return m_size;
-            }
-            constexpr reference front() const {
-                return m_data[0];
-            }
-            constexpr reference back() const {
-                return m_data[m_size-1];
             }
             constexpr const_iterator cbegin() const {
                 return const_iterator{m_data.get()};
@@ -66,6 +62,34 @@ namespace functional_cpp {
             constexpr const_iterator cend() const {
                 return const_iterator{m_data.get() + m_size};
             }
+            
+            constexpr reverse_iterator rbegin() {
+                return reverse_iterator{m_data.get() + m_size - 1};
+            }
+
+            constexpr reverse_iterator rend() {
+                return reverse_iterator{m_data.get() - 1};
+            }
+
+            constexpr const_reverse_iterator crbegin() const {
+                return const_reverse_iterator{m_data.get() + m_size - 1};
+            }
+
+            constexpr const_reverse_iterator crend() const {
+                return const_reverse_iterator{m_data.get() - 1};
+            }
+            
+            constexpr std::size_t size() const {
+                return m_size;
+            }
+            
+            constexpr reference front() const {
+                return m_data[0];
+            }
+            constexpr reference back() const {
+                return m_data[m_size-1];
+            }
+            
             constexpr void for_each(const auto& function) {
                 for (std::size_t i{0}; i < m_size; ++i) {
                     function(m_data[i]);
