@@ -8,7 +8,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-// VERSION 2.3
+// VERSION 2.3.1
 
 namespace functional_cpp {
     template<class T>
@@ -36,7 +36,7 @@ namespace functional_cpp {
             template<class InputIterator>
             constexpr array(InputIterator first, InputIterator last) : m_data{std::make_unique<value_type[]>(static_cast<std::size_t>(std::distance(first, last)))},
                                                              m_size{static_cast<std::size_t>(std::distance(first,last))} {
-                for (auto it = m_data.get(); first != last; ++first, ++it) {
+                for (auto it { m_data.get() }; first != last; ++first, ++it) {
                     *it = *first;
                 }
             }
@@ -104,7 +104,7 @@ namespace functional_cpp {
             }
             template<class OutputIterator>
             constexpr void map(OutputIterator outputIterator,  std::function<value_type(value_type)> unary_op) {
-                for (auto it = cbegin(); it != cend(); ++it) {
+                for (auto it { cbegin() }; it != cend(); ++it) {
                     *outputIterator++ = unary_op(*it);
                 }
             }
