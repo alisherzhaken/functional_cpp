@@ -2,7 +2,7 @@
 #ifndef RANDOM_ACCESS_ITERATOR_HPP
 #define RANDOM_ACCESS_ITERATOR_HPP
 
-// VERSION 2.0
+// VERSION 2.1
 
 namespace functional_cpp {
 
@@ -14,6 +14,7 @@ namespace functional_cpp {
             using pointer = value_type*;
             using const_reference = const value_type&;
             using const_pointer = const value_type*;
+            using difference_type = std::ptrdiff_t;
         public:
             constexpr RandomAccessIterator(pointer data) : m_data{data} {}
             constexpr RandomAccessIterator(const RandomAccessIterator& iterator) : m_data{iterator.m_data} {}
