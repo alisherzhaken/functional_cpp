@@ -7,7 +7,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-// VERSION 2.3.1
+// VERSION 2.3.2
 
 namespace functional_cpp {
     template<class T>
