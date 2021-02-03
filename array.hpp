@@ -89,7 +89,7 @@ namespace functional_cpp {
                 return m_data[m_size-1];
             }
             
-            constexpr void for_each(const auto& function) {
+            constexpr void for_each(std::function<void(value_type)> function) {
                 for (std::size_t i{0}; i < m_size; ++i) {
                     function(m_data[i]);
                 }
