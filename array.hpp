@@ -7,7 +7,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-// VERSION 2.3.2
+// VERSION 2.3.3
 
 namespace functional_cpp {
     template<class T>
@@ -16,6 +16,7 @@ namespace functional_cpp {
             using value_type = T;
             using size_type = std::size_t;
             using pointer = std::unique_ptr<value_type[]>;
+            using raw_pointer = value_type*;
             using reference = value_type&;
             using const_reference = const value_type&;
             using iterator = RandomAccessIterator<value_type>;
@@ -45,7 +46,7 @@ namespace functional_cpp {
                 return index < m_size ? m_data[index] : throw std::out_of_range("Index out of bounds");
             }
             
-            constexpr pointer data() const {
+            constexpr raw_pointer data() const {
                 return m_data.get();
             }
             
