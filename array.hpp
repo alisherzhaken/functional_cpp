@@ -1,5 +1,4 @@
 #include <memory>
-#include <cassert>
 #include <stdexcept>
 #include <functional>
 
