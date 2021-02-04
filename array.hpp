@@ -7,7 +7,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-// VERSION 2.3.3
+// VERSION 2.3.4
 
 namespace functional_cpp {
     template<class T>
@@ -28,7 +28,7 @@ namespace functional_cpp {
             constexpr array(std::initializer_list<T> collection) : m_data{std::make_unique<value_type[]>(collection.size())}, 
                                                          m_size{collection.size()} {
                 for (auto it {collection.begin()}; it != collection.end(); ++it) {
-                    m_data[std::distance(collection.begin(), it) - 1] = *it;
+                    m_data[std::distance(collection.begin(), it)] = *it;
                 }
             }
             constexpr array(const array& other) : array{other.cbegin(), other.cend()} {}
