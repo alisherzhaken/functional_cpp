@@ -5,7 +5,7 @@
 #ifndef ARRAY_LIST_HPP
 #define ARRAY_LIST_HPP
 
-// VERSION 1.0
+// VERSION 1.1
 
 
 namespace functional_cpp {
@@ -159,13 +159,23 @@ namespace functional_cpp {
                 }
             }
 
+            constexpr void shrink() {
+                if (m_size < m_capacity) {
+                    pointer new_data { m_allocator.allocate(m_size) };
+                    for (std::size_t i{0}; i < m_size; ++i) {
+                        new_data[i] = m_data[i];
+                    }
+                    m_allocator.deallocate(m_data, m_capacity);
+                    m_data = new_data;
+                    m_capacity = m_size;
+                }
+            }
+
         private:
             allocator m_allocator{};
             pointer m_data;
             std::size_t m_size;
             std::size_t m_capacity;
-
-
     };
 
 }
