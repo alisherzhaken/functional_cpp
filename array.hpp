@@ -28,7 +28,7 @@ namespace functional_cpp {
             constexpr array(std::initializer_list<T> collection) : m_data{std::make_unique<value_type[]>(collection.size())}, 
                                                          m_size{collection.size()} {
                 for (auto it {collection.begin()}; it != collection.end(); ++it) {
-                    m_data[it - collection.begin()] = *it;
+                    m_data[std::distance(collection.begin(), it) - 1] = *it;
                 }
             }
             constexpr array(const array& other) : array{other.cbegin(), other.cend()} {}
