@@ -24,6 +24,11 @@ namespace functional_cpp {
             constexpr bool operator!=(const RandomAccessIterator& iterator) const {
                 return !(*this == iterator);
             }
+
+            RandomAccessIterator operator+ (std::size_t n) {
+                return {m_data + n};
+            }
+
             RandomAccessIterator& operator++() {
                 ++m_data;
                 return *this;
@@ -66,6 +71,11 @@ namespace functional_cpp {
             bool operator!=(const ReverseRandomAccessIterator& iterator) const {
                 return !(*this == iterator);
             }
+
+            ReverseRandomAccessIterator operator+ (std::size_t n) {
+                return m_data - n;
+            }
+
             ReverseRandomAccessIterator& operator++() {
                 --m_data;
                 return *this;
