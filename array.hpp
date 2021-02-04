@@ -32,7 +32,7 @@ namespace functional_cpp {
                 }
             }
             constexpr array(const array& other) : array{other.cbegin(), other.cend()} {}
-            constexpr array(array&& other) : m_data{std::move(other.m_data)}, m_size{std::exchange(other.m_size, 0)} {}
+            constexpr array(array&& other) noexcept : m_data{std::move(other.m_data)}, m_size{std::exchange(other.m_size, 0)} {}
             template<class InputIterator>
             constexpr array(InputIterator first, InputIterator last) : m_data{std::make_unique<value_type[]>(static_cast<std::size_t>(std::distance(first, last)))},
                                                              m_size{static_cast<std::size_t>(std::distance(first,last))} {

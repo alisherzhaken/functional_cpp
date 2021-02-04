@@ -5,7 +5,7 @@
 #ifndef ARRAY_LIST_HPP
 #define ARRAY_LIST_HPP
 
-// VERSION 1.1
+// VERSION 1.2
 
 
 namespace functional_cpp {
@@ -46,7 +46,7 @@ namespace functional_cpp {
                 }
             }
             
-            constexpr array_list(array_list&& other) : m_data{std::exchange(other.m_data, nullptr)},
+            constexpr array_list(array_list&& other) noexcept : m_data{std::exchange(other.m_data, nullptr)},
                                                     m_size{std::exchange(other.m_size, 0)},
                                                     m_capacity{std::exchange(other.m_capacity, 0)} {}
             
