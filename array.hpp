@@ -110,12 +110,23 @@ namespace functional_cpp {
                 }
                 return mapped_array;
             }
+            
             template<class OutputIterator>
             constexpr void map(OutputIterator outputIterator,  std::function<value_type(value_type)> unary_op) {
                 for (auto it { cbegin() }; it != cend(); ++it) {
                     *outputIterator++ = unary_op(*it);
                 }
             }
+
+            template<class OutputIterator>
+            constexpr void map(OutputIterator first, OutputIterator last, std::function<value_type(value_type)> unary_op) {
+                auto distance { std::distance(cbegin(), cend()) < std::distance(first, last) 
+                              ? std::distance(cbegin(), cend()) : std::distance(first, last) };
+                for (auto it { cbegin() }; it != cbegin() + distance; ++it) {
+                    *first++ = unary_op(*it);
+                }
+            }
+
 
             constexpr array<value_type> filter(std::function<bool(value_type)> predicate) {
                 raw_pointer filtered_data { static_cast<raw_pointer>(std::malloc(m_size * sizeof(value_type))) };
