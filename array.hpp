@@ -23,19 +23,26 @@ namespace functional_cpp {
             using const_iterator = RandomAccessIterator<const value_type>;
             using reverse_iterator = ReverseRandomAccessIterator<value_type>;
             using const_reverse_iterator = ReverseRandomAccessIterator<const value_type>;
+
         public:
-            constexpr array(std::size_t size) : m_data{std::make_unique<value_type[]>(size)}, m_size{size} {}
+            constexpr array(std::size_t size) : m_data{std::make_unique<value_type[]>(size)}, 
+                                                m_size{size} {}
+            
             constexpr array(std::initializer_list<T> collection) : m_data{std::make_unique<value_type[]>(collection.size())}, 
-                                                         m_size{collection.size()} {
+                                                                   m_size{collection.size()} {
                 for (auto it {collection.begin()}; it != collection.end(); ++it) {
                     m_data[std::distance(collection.begin(), it)] = *it;
                 }
             }
+            
             constexpr array(const array& other) : array{other.cbegin(), other.cend()} {}
-            constexpr array(array&& other) noexcept : m_data{std::move(other.m_data)}, m_size{std::exchange(other.m_size, 0)} {}
+            
+            constexpr array(array&& other) noexcept : m_data{std::move(other.m_data)}, 
+                                                      m_size{std::exchange(other.m_size, 0)} {}
+            
             template<class InputIterator>
             constexpr array(InputIterator first, InputIterator last) : m_data{std::make_unique<value_type[]>(static_cast<std::size_t>(std::distance(first, last)))},
-                                                             m_size{static_cast<std::size_t>(std::distance(first,last))} {
+                                                                       m_size{static_cast<std::size_t>(std::distance(first,last))} {
                 for (auto it { m_data.get() }; first != last; ++first, ++it) {
                     *it = *first;
                 }
@@ -118,9 +125,9 @@ namespace functional_cpp {
                         filtered_data[new_size++] = *it;
                     }
                 }
-                array<value_type> new_array(filtered_data, filtered_data + new_size);
+                array<value_type> filtered_array(filtered_data, filtered_data + new_size);
                 std::free(filtered_data);
-                return new_array;
+                return filtered_array;
             }
 
         private:
