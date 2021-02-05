@@ -7,7 +7,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-// VERSION 2.3.4
+// VERSION 2.4
 
 namespace functional_cpp {
     template<class T>
@@ -40,6 +40,7 @@ namespace functional_cpp {
                     *it = *first;
                 }
             }
+
             ~array() = default;
             
             constexpr reference operator[](size_type index) const {
@@ -108,6 +109,20 @@ namespace functional_cpp {
                     *outputIterator++ = unary_op(*it);
                 }
             }
+
+            constexpr array<value_type> filter(std::function<bool(value_type)> predicate) {
+                raw_pointer filtered_data { static_cast<raw_pointer>(std::malloc(m_size * sizeof(value_type))) };
+                std::size_t new_size { 0 };
+                for (auto it { begin() }; it != end(); ++it) {
+                    if (predicate(*it)) {
+                        filtered_data[new_size++] = *it;
+                    }
+                }
+                array<value_type> new_array(filtered_data, filtered_data + new_size);
+                std::free(filtered_data);
+                return new_array;
+            }
+
         private:
             pointer m_data;
             std::size_t m_size;
